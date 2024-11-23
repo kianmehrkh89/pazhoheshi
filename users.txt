@@ -1,6 +1,6 @@
-kianmehr
-ali
-akbar
-abas
-mamad
-hoseyn
+kianmehr/123/admin
+ali/123/user
+akbar/123/user
+abas/123/user
+mamad/123/user
+hoseyn/123/user

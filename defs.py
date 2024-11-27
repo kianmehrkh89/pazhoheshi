@@ -8,7 +8,12 @@ def check_user(name,pas,users):
     for i in range(len(users)):
         if name in users[i][0]:
             if pas in users[i][1]:
+                print("login successful")
                 return True , i
+            else:
+                print("password incorrect")
+                return False
+    print("user not found")
     return False
 def check_admin(users,i):
     if "admin" in users[i][2] :
@@ -21,15 +26,16 @@ def add_user(user,pas,tipe,users):
         new_file.write('/'.join(line) + '\n')
     new_file.close()
     return
-def edit_user(pas,users,user_num):
-    if input("last password: ") == pas:
-        a=input("new password: ")
-        if input("repeat password: ") == a:
-            users[user_num][1]=a
+def edit_user(pas,last_pas,new_pas,rpt_new_pas,users,user_num):
+    if last_pas == pas:
+        if rpt_new_pas == new_pas:
+            users[user_num][1]=new_pas
             new_file=open("users.txt","w")
             for line in users: 
                 new_file.write('/'.join(line) + '\n')
             new_file.close()
+    else:
+        print("password incorrect")
 def del_user(user,approval,users):
     if approval == "y":
         for i in range(len(users)):
@@ -86,7 +92,7 @@ user_input , user_num=check_user(username,pas,users)
 admin = check_admin(users,user_num)
 if user_input == True :
     print([a[0] for a in libry])
-#edit_user(pas,users,user_num)
+#edit_user(pas,input("last password: "),input("new password: "),input("repeat new password: "),users,user_num)
 #if admin == True :
  #   del_user(input(),input("are you sure?(y/n) "),users)
 if admin == True: 

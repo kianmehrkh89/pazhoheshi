@@ -45,6 +45,8 @@ def del_user(user,approval,users):
                 for line in users: 
                     new_file.write('/'.join(line) + '\n')
                 new_file.close()
+    else:
+        print("")
     return
 def open_book():
     libry = open("libry.txt","r")

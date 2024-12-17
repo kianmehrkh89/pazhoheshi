@@ -151,7 +151,7 @@ def my_book(username,log):
         if log[i][0]==username and log[i][3]=="1":
             print("Book name: "+log[i][1]+" Date taking: "+log[i][2])
     return
-    
+
 #libry file
 libry = open_book()
 #users file
@@ -163,7 +163,6 @@ user_input , user_num=check_user(username,pas,users)
 if user_input==True:
     admin = check_admin(users,user_num)
 log = open_log()
-print(log)
 #get_book(username,input("book name: "),log,libry)
 #edit_user(pas,input("last password: "),input("new password: "),input("repeat new password: "),users,user_num)
 #if admin == True :
@@ -171,7 +170,7 @@ print(log)
 #if admin == True: 
 #    add_user(input("new user name: "),input("new user password: "),input("Type of user: "),users)
 while q==False and user_input==True:
-    print("1.show libry list\n2.get book\n3.give back book\n4.add user\n5.edit user\n6.del user\n7.add book\n8.edit book\n9.del book\n10.search a book\n11.my book\n12.quit")
+    print("1.show libry list\n2.get book\n3.give back book\n4.add user\n5.edit user\n6.del user\n7.add book\n8.edit book\n9.del book\n10.search a book\n11.my book\n12.all log0.quit")
     work = int(input())
     if work==1:
         print([a[0] for a in libry if int(a[1])>0])
@@ -196,6 +195,8 @@ while q==False and user_input==True:
     elif work==11:
         my_book(username,log)
     elif work==12:
+        print(log)
+    elif work==0:
         q=True
     else:
         print("num is out of range")

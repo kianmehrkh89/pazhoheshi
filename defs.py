@@ -24,7 +24,7 @@ def check_user(name,pas,users):
     print("user not found")
     return False , -1
 def check_admin(users,i):
-    if "admin" in users[i][2] :
+    if "admin" in users[i][2] or "main" in users[i][2] :
         return True
     return False
 def add_user(user,pas,tipe,admin,users):
@@ -128,7 +128,12 @@ def get_book(username,book,log,libry):
     for line in libry: 
         new_libey.write('/'.join(line) + '\n')
     new_libey.close()
-
+    print("get book successful")
+    return
+def my_book(username,log):
+    for i in range(len(log)):
+        if log[i][0]==username and log[i][3]=="1":
+            print("Book name: "+log[i][1]+" Date taking: "+log[i][2])
     return
 def give_back_book(username,book,log,libry):
     for i in range(len(log)):
@@ -145,13 +150,14 @@ def give_back_book(username,book,log,libry):
         new_libey.write('/'.join(line) + '\n')
     new_libey.close()
     new_log.close()
+    print("get back book successful")
     return
-def my_book(username,log):
-    for i in range(len(log)):
-        if log[i][0]==username and log[i][3]=="1":
-            print("Book name: "+log[i][1]+" Date taking: "+log[i][2])
+def all_log(admin,log):
+    if admin==True:
+        for i in log:
+            if i[3]=="1":
+                print(i[0]+" dar tarikh "+i[2]+" ketabe "+i[1]+" ra gerefte")
     return
-
 #libry file
 libry = open_book()
 #users file
@@ -163,41 +169,61 @@ user_input , user_num=check_user(username,pas,users)
 if user_input==True:
     admin = check_admin(users,user_num)
 log = open_log()
-#get_book(username,input("book name: "),log,libry)
-#edit_user(pas,input("last password: "),input("new password: "),input("repeat new password: "),users,user_num)
-#if admin == True :
- #   del_user(input(),input("are you sure?(y/n) "),users)
-#if admin == True: 
-#    add_user(input("new user name: "),input("new user password: "),input("Type of user: "),users)
 while q==False and user_input==True:
-    print("1.show libry list\n2.get book\n3.give back book\n4.add user\n5.edit user\n6.del user\n7.add book\n8.edit book\n9.del book\n10.search a book\n11.my book\n12.all log0.quit")
-    work = int(input())
-    if work==1:
-        print([a[0] for a in libry if int(a[1])>0])
-    elif work==2:
-        get_book(username,input("book name: "),log,libry)
-    elif work==3:
-        give_back_book(username,input("book name: "),log,libry)
-    elif work==4:
-        add_user(input("new username: "),input("pasword: "),input("user Type: "),admin,users)
-    elif work==5:
-        edit_user(pas,input("last password: "),input("new password: "),input("repeat new password: "),users,user_num)
-    elif work==6:
-        del_user(input("username: "),input("are you sure?(y/n) "),admin,users)
-    elif work==7:
-        add_book(input("new BookName: "),input("num of Book: "),admin,libry)
-    elif work==8:
-        edit_book(input("new BookName: "),input("num of Book: "),admin,libry)
-    elif work==9:
-        del_book(input("Book name: "),admin,libry)
-    elif work==10:
-        check_book(input("Book name: "),libry)
-    elif work==11:
-        my_book(username,log)
-    elif work==12:
-        print(log)
-    elif work==0:
-        q=True
+    time.sleep(1)
+    if admin==True:
+        print("1.show libry list\n2.get book\n3.get back book\n4.add user\n5.edit user\n6.del user\n7.add book\n8.edit book\n9.del book\n10.search a book\n11.my book\n12.all log\n13.show all users info\n0.quit")
+        work = int(input("input num: "))
+        if work==1:
+            print([a[0] for a in libry if int(a[1])>0])
+        elif work==2:
+            get_book(username,input("Book you want: "),log,libry)
+        elif work==3:
+            print("The books you bought:")
+            my_book(username,log)
+            give_back_book(username,input("The book you want to return: "),log,libry)
+        elif work==4:
+            add_user(input("new username: "),input("pasword: "),input("user Type: "),admin,users)
+        elif work==5:
+            edit_user(pas,input("last password: "),input("new password: "),input("repeat new password: "),users,user_num)
+        elif work==6:
+            del_user(input("username: "),input("are you sure?(y/n) "),admin,users)
+        elif work==7:
+            add_book(input("new BookName: "),input("num of Book: "),admin,libry)
+        elif work==8:
+            edit_book(input("new BookName: "),input("num of Book: "),admin,libry)
+        elif work==9:
+            del_book(input("Book name: "),admin,libry)
+        elif work==10:
+            check_book(input("Book name: "),libry)
+        elif work==11:
+            my_book(username,log)
+        elif work==12:
+            all_log(admin,log)
+        elif work==13:
+            if "main" in users[user_num][2]:
+                for i in users:
+                    print("username: "+i[0]+"   password: "+i[1]+"   UserType: "+i[2])
+        elif work==0:
+            q=True
+        else:
+            print("num is out of range")
     else:
-        print("num is out of range")
-    time.sleep(2)
+        print("1.show libry list\n2.get book\n3.give back book\n4.edit user\n5.search a book\n6.my book\n0.quit")
+        work = int(input("input num: "))
+        if work==1:
+            print([a[0] for a in libry if int(a[1])>0])
+        elif work==2:
+            get_book(username,input("book name: "),log,libry)
+        elif work==3:
+            give_back_book(username,input("book name: "),log,libry)
+        elif work==4:
+            edit_user(pas,input("last password: "),input("new password: "),input("repeat new password: "),users,user_num)
+        elif work==5:
+            check_book(input("Book name: "),libry)
+        elif work==6:
+            my_book(username,log)
+        elif work==0:
+            q=True
+        else:
+            print("num is out of range")

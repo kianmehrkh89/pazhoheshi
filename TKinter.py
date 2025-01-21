@@ -1,7 +1,8 @@
+# import tkinter module 
 from datetime import datetime
 from tkinter import *        
 from tkinter.ttk import *
-import time
+import time  
 def open_users():
     users = open("users.txt","r")
     users = users.read().splitlines()
@@ -173,42 +174,48 @@ log = open_log()
 while q==False and user_input==True:
     time.sleep(1)
     if admin==True:
-        print("1.show libry list\n2.get book\n3.get back book\n4.add user\n5.edit user\n6.del user\n7.add book\n8.edit book\n9.del book\n10.search a book\n11.my book\n12.all log\n13.show all users info\n0.quit")
-        work = int(input("input num: "))
-        if work==1:
-            print([a[0] for a in libry if int(a[1])>0])
-        elif work==2:
-            get_book(username,input("Book you want: "),log,libry)
-        elif work==3:
-            print("The books you bought:")
-            my_book(username,log)
-            give_back_book(username,input("The book you want to return: "),log,libry)
-        elif work==4:
-            add_user(input("new username: "),input("pasword: "),input("user Type: "),main,users)
-        elif work==5:
-            edit_user(pas,input("last password: "),input("new password: "),input("repeat new password: "),users,user_num)
-        elif work==6:
-            del_user(input("username: "),input("are you sure?(y/n) "),main,users)
-        elif work==7:
-            add_book(input("new BookName: "),input("num of Book: "),libry)
-        elif work==8:
-            edit_book(input("new BookName: "),input("num of Book: "),libry)
-        elif work==9:
-            del_book(input("Book name: "),libry)
-        elif work==10:
-            check_book(input("Book name: "),libry)
-        elif work==11:
-            my_book(username,log)
-        elif work==12:
-            all_log(log)
-        elif work==13:
-            if main == True:
-                for i in users:
-                    print("username: "+i[0]+"   password: "+i[1]+"   UserType: "+i[2])
-        elif work==0:
-            q=True
-        else:
-            print("num is out of range")
+        root = Tk()           
+        root.geometry('700x500')   
+        btn1 = Button(root, text = 'show libry list', 
+                command = root.destroy)
+        btn1.pack(side = 'top')
+        btn2 = Button(root, text = 'get book', 
+                        command = get_book)
+        btn2.pack(side = 'top') 
+        btn3 = Button(root, text = 'get back book', 
+                        command = give_back_book)
+        btn3.pack(side = 'top')
+        btn4 = Button(root, text = 'add user', 
+                        command = add_user)
+        btn4.pack(side = 'top') 
+        btn5 = Button(root, text = 'edit user', 
+                        command = edit_user) 
+        btn5.pack(side = 'top')
+        btn6 = Button(root, text = 'del user', 
+                        command = del_user) 
+        btn6.pack(side = 'top')
+        btn7 = Button(root, text = 'add book', 
+                        command = add_book) 
+        btn7.pack(side = 'top')
+        btn8 = Button(root, text = 'edit book', 
+                        command = edit_book) 
+        btn8.pack(side = 'top')
+        btn9 = Button(root, text = 'del book', 
+                        command = del_book) 
+        btn9.pack(side = 'top')
+        btn10 = Button(root, text = 'search a book', 
+                    command = check_book) 
+        btn10.pack(side = 'top')
+        btn11 = Button(root, text = 'my book', 
+                        command = my_book) 
+        btn11.pack(side = 'top')
+        btn12 = Button(root, text = 'all log', 
+                        command = all_log) 
+        btn12.pack(side = 'top')
+        btn13 = Button(root, text = 'quit',
+                        command = root.destroy) 
+        btn13.pack(side = 'top')
+        root.mainloop() 
     else:
         print("1.show libry list\n2.get book\n3.give back book\n4.edit user\n5.search a book\n6.my book\n0.quit")
         work = int(input("input num: "))
@@ -228,3 +235,6 @@ while q==False and user_input==True:
             q=True
         else:
             print("num is out of range")
+
+# Set the position of button on the top of window 
+

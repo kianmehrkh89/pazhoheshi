@@ -2,6 +2,4 @@ kianmehr/123/main
 ali/123/user
 akbar/123/user
 abas/123/user
-mamad/123/user
-hoseyn/123/user
 ostad/0000/admin

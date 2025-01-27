@@ -49,6 +49,9 @@ class system:
 class user:
     def ___init___(self):
         pass
+    def libry_list(self,libry):
+        for i in libry:
+            print(i[0])
     def add_book(self,book_name,num,libry):
         libry.append([book_name,num])
         new_file=open("libry.txt","w")
@@ -63,6 +66,9 @@ class user:
                 new_file=open("libry.txt","w")
                 for line in libry: 
                     new_file.write('/'.join(line) + '\n')
+            else:
+                print('book not found')
+                return
         print("edit successful")
         return
     def del_book(self,book_name,libry):
@@ -140,11 +146,17 @@ class user:
         print("get book successful")
         return
     def my_book(self,username,log):
+        a=[]
         for i in range(len(log)):
             if log[i][0]==username and log[i][3]=="1":
-                print("Book name: "+log[i][1]+" Date taking: "+log[i][2])
+                a.append("Book name: "+log[i][1]+" Date taking: "+log[i][2])
+        if len(a)==0:
+                print("you didn't get a book")
+        else:
+            for i in a:
+                print(i)
         return
-    def give_back_book(username,book,log,libry):
+    def give_back_book(self,username,book,log,libry):
         for i in range(len(log)):
             if log[i][0] == username and log[i][1] == book:
                  log[i][3]="0"
@@ -161,8 +173,15 @@ class user:
         new_log.close()
         print("get back book successful")
         return
-    def all_log(log):
+    def all_log(self,log):
         for i in log:
             if i[3]=="1":
                 print(i[0]+" dar tarikh "+i[2]+" ketabe "+i[1]+" ra gerefte")
+        return
+    def all_user_data(self,main,users):
+        if main==True:
+            for i in users:
+                print(i)
+        else:
+            print("you are not main")
         return

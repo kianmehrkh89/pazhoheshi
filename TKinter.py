@@ -1,240 +1,95 @@
 # import tkinter module 
+import classs
 from datetime import datetime
 from tkinter import *        
 from tkinter.ttk import *
 import time  
-def open_users():
-    users = open("users.txt","r")
-    users = users.read().splitlines()
-    for i in range(len(users)):
-        users[i]=users[i].split("/")
-    return users
-def open_log():
-    log = open("log.txt","r")
-    log = log.read().splitlines()
-    for i in range(len(log)):
-        log[i]=log[i].split(",")
-    return log
-def check_user(name,pas,users):
-    for i in range(len(users)):
-        if users[i][0] == name:
-            if pas in users[i][1]:
-                print("login successful")
-                return True , i
-            else:
-                print("password incorrect")
-                return False , -1
-    print("user not found")
-    return False , -1
-def check_admin(users,i):
-    if "admin" in users[i][2] or "main" in users[i][2] :
-        return True
-    return False
-def check_main(users,i):
-    if "main" in users[i][2]:
-        return True
-    return False
-def add_user(user,pas,type,main,users):
-    if type == admin and main == True :
-        users.append([user,pas,type])
-    elif type == user :
-        users.append([user,pas,type])
-    else:
-        print("type incorrect")
-        return
-    new_file=open("users.txt","w")
-    for line in users: 
-        new_file.write('/'.join(line) + '\n')
-    new_file.close()
-    print("user added")
-    return
-def edit_user(pas,last_pas,new_pas,rpt_new_pas,users,user_num):
-    if last_pas == pas:
-        if rpt_new_pas == new_pas:
-            users[user_num][1]=new_pas
-            new_file=open("users.txt","w")
-            for line in users: 
-                new_file.write('/'.join(line) + '\n')
-            new_file.close()
-            print("edit successful")
-        else:
-            print("password incorrect")
-    else:
-        print("password incorrect")
-def del_user(user,approval,main,users):
-    if main==True:
-        if approval == "y":
-            for i in range(len(users)):
-                if user in users[i][0]:
-                    del users[i]
-                    new_file=open("users.txt","w")
-                    for line in users: 
-                        new_file.write('/'.join(line) + '\n')
-                    new_file.close()
-                    break
-            print("delete successful")
-        else:
-            print("delete cancelled")
-    else:
-        print("you can't delete user")
-    return
-def open_book():
-    libry = open("libry.txt","r")
-    libry = libry.read().splitlines()
-    for i in range(len(libry)):
-        libry[i]=libry[i].split("/")
-    return libry
-def check_book(B_Name,libry):
-    for i in range(len(libry)):
-        if B_Name in libry[i][0] and (int(libry[i][1])>0):
-            print("Book is available")
-            return True
-    print("Book is unavailable")
-    return False
-def add_book(book_name,num,libry):
-    libry.append([book_name,num])
-    new_file=open("libry.txt","w")
-    for line in libry: 
-        new_file.write('/'.join(line) + '\n')
-    print("book added")
-    return
-def edit_book(book_name,num,libry):
-    for i in range(len(libry)):
-        if book_name in libry[i][0] :
-            libry[i][1] = str(num)
-            new_file=open("libry.txt","w")
-            for line in libry: 
-                new_file.write('/'.join(line) + '\n')
-    print("edit successful")
-    return
-def del_book(book_name,libry):
-    for i in range(len(libry)):
-        if book_name in libry[i][0] :
-            libry[i][1] = "0"
-            new_file=open("libry.txt","w")
-            for line in libry: 
-                new_file.write('/'.join(line) + '\n')
-    print("delete successful")
-    return
-def get_book(username,book,log,libry):
-    now = datetime.now()
-    now = now.strftime("%y/%m/%d")
-    new_log = open("log.txt","w")
-    log.append([username,book,now,"1"])
-    for line in log: 
-        new_log.write(','.join(line) + '\n')
-    for i in range(len(libry)):
-        if libry[i][0] == book:
-            libry[i][1]=str((int(libry[i][1])-1))
-    new_libey = open("libry.txt","w")
-    for line in libry: 
-        new_libey.write('/'.join(line) + '\n')
-    new_libey.close()
-    print("get book successful")
-    return
-def my_book(username,log):
-    for i in range(len(log)):
-        if log[i][0]==username and log[i][3]=="1":
-            print("Book name: "+log[i][1]+" Date taking: "+log[i][2])
-    return
-def give_back_book(username,book,log,libry):
-    for i in range(len(log)):
-        if log[i][0] == username and log[i][1] == book:
-             log[i][3]="0"
-    new_log = open("log.txt","w")
-    for line in log: 
-        new_log.write(','.join(line) + '\n')
-    for i in range(len(libry)):
-        if libry[i][0] == book:
-            libry[i][1]=str((int(libry[i][1])+1))
-    new_libey = open("libry.txt","w")
-    for line in libry: 
-        new_libey.write('/'.join(line) + '\n')
-    new_libey.close()
-    new_log.close()
-    print("get back book successful")
-    return
-def all_log(log):
-    for i in log:
-        if i[3]=="1":
-            print(i[0]+" dar tarikh "+i[2]+" ketabe "+i[1]+" ra gerefte")
-    return
 #libry file
-libry = open_book()
+system = classs.system()
+api = classs.user()
+libry = system.open_book()
 #users file
-users=open_users()
+users=system.open_users()
 q=False
 username=input("username: ")
 pas=input("password: ")
-user_input , user_num=check_user(username,pas,users)
+user_input , user_num=system.check_user(username,pas,users)
 if user_input==True:
-    admin = check_admin(users,user_num)
-    main = check_main(users,user_num)
-log = open_log()
-while q==False and user_input==True:
-    time.sleep(1)
-    if admin==True:
-        root = Tk()           
-        root.geometry('700x500')   
-        btn1 = Button(root, text = 'show libry list', 
-                command = root.destroy)
-        btn1.pack(side = 'top')
-        btn2 = Button(root, text = 'get book', 
-                        command = get_book)
-        btn2.pack(side = 'top') 
-        btn3 = Button(root, text = 'get back book', 
-                        command = give_back_book)
-        btn3.pack(side = 'top')
-        btn4 = Button(root, text = 'add user', 
-                        command = add_user)
-        btn4.pack(side = 'top') 
-        btn5 = Button(root, text = 'edit user', 
-                        command = edit_user) 
-        btn5.pack(side = 'top')
-        btn6 = Button(root, text = 'del user', 
-                        command = del_user) 
-        btn6.pack(side = 'top')
-        btn7 = Button(root, text = 'add book', 
-                        command = add_book) 
-        btn7.pack(side = 'top')
-        btn8 = Button(root, text = 'edit book', 
-                        command = edit_book) 
-        btn8.pack(side = 'top')
-        btn9 = Button(root, text = 'del book', 
-                        command = del_book) 
-        btn9.pack(side = 'top')
-        btn10 = Button(root, text = 'search a book', 
-                    command = check_book) 
-        btn10.pack(side = 'top')
-        btn11 = Button(root, text = 'my book', 
-                        command = my_book) 
-        btn11.pack(side = 'top')
-        btn12 = Button(root, text = 'all log', 
-                        command = all_log) 
-        btn12.pack(side = 'top')
-        btn13 = Button(root, text = 'quit',
-                        command = root.destroy) 
-        btn13.pack(side = 'top')
-        root.mainloop() 
-    else:
-        print("1.show libry list\n2.get book\n3.give back book\n4.edit user\n5.search a book\n6.my book\n0.quit")
-        work = int(input("input num: "))
-        if work==1:
-            print([a[0] for a in libry if int(a[1])>0])
-        elif work==2:
-            get_book(username,input("book name: "),log,libry)
-        elif work==3:
-            give_back_book(username,input("book name: "),log,libry)
-        elif work==4:
-            edit_user(pas,input("last password: "),input("new password: "),input("repeat new password: "),users,user_num)
-        elif work==5:
-            check_book(input("Book name: "),libry)
-        elif work==6:
-            my_book(username,log)
-        elif work==0:
-            q=True
-        else:
-            print("num is out of range")
+    admin = system.check_admin(users,user_num)
+    main = system.check_main(users,user_num)
+log = system.open_log()
+
+if admin==True:
+    root = Tk()           
+    root.geometry('600x350')   
+    btn_libry_list = Button(root, text = 'show libry list', 
+            command = lambda:api.libry_list(libry))
+    btn_libry_list.pack(side = 'top')
+    btn_get_book = Button(root, text = 'get book', 
+                    command = lambda:api.get_book(username,input("Book you want: "),log,libry))
+    btn_get_book.pack(side = 'top') 
+    btn_get_back_book = Button(root, text = 'get back book', 
+                    command = lambda:api.give_back_book(username,input("The book you want to return: "),log,libry))
+    btn_get_back_book.pack(side = 'top')
+    btn_add_user = Button(root, text = 'add user', 
+                    command = lambda:api.add_user(input("new username: "),input("pasword: "),input("user Type: "),main,users))
+    btn_add_user.pack(side = 'top') 
+    btn_edit_user = Button(root, text = 'edit user', 
+                    command = lambda:api.edit_user(pas,input("last password: "),input("new password: "),input("repeat new password: "),users,user_num)) 
+    btn_edit_user.pack(side = 'top')
+    btn_del_user = Button(root, text = 'del user', 
+                    command = lambda:api.del_user(input("username: "),input("are you sure?(y/n) "),main,users)) 
+    btn_del_user.pack(side = 'top')
+    btn_add_book = Button(root, text = 'add book', 
+                    command = lambda:api.add_book(input("new BookName: "),input("num of Book: "),libry)) 
+    btn_add_book.pack(side = 'top')
+    btn_edit_book = Button(root, text = 'edit book', 
+                    command = lambda:api.edit_book(input("BookName: "),input("new num of Book: "),libry)) 
+    btn_edit_book.pack(side = 'top')
+    btn_del_book = Button(root, text = 'del book', 
+                    command = lambda:api.del_book(input("Book name: "),libry)) 
+    btn_del_book.pack(side = 'top')
+    btn_search_book = Button(root, text = 'search a book', 
+                command = lambda:system.check_book(input("Book name: "),libry)) 
+    btn_search_book.pack(side = 'top')
+    btn_my_book = Button(root, text = 'my book', 
+                    command = lambda:api.my_book(username,log)) 
+    btn_my_book.pack(side = 'top')
+    btn_all_log = Button(root, text = 'all log', 
+                    command = lambda:api.all_log(log)) 
+    btn_all_log.pack(side = 'top')
+    btn_all_users_data = Button(root, text = 'all users data', 
+                    command = lambda:api.all_user_data(main,users))
+    btn_all_users_data.pack(side = 'top')
+    btn_quit = Button(root, text = 'quit',
+                    command = root.destroy) 
+    btn_quit.pack(side = 'top')
+    root.mainloop() 
+else:
+    root = Tk()           
+    root.geometry('600x350')   
+    btn_libry_list = Button(root, text = 'show libry list', 
+            command = lambda:api.libry_list(libry))
+    btn_libry_list.pack(side = 'top')
+    btn_get_book = Button(root, text = 'get book', 
+                    command = lambda:api.get_book(username,input("Book you want: "),log,libry))
+    btn_get_book.pack(side = 'top') 
+    btn_get_back_book = Button(root, text = 'get back book', 
+                    command = lambda:api.give_back_book(username,input("The book you want to return: "),log,libry))
+    btn_get_back_book.pack(side = 'top')
+    btn_edit_user = Button(root, text = 'edit user', 
+                    command = lambda:api.edit_user(pas,input("last password: "),input("new password: "),input("repeat new password: "),users,user_num)) 
+    btn_edit_user.pack(side = 'top')
+    btn_search_book = Button(root, text = 'search a book', 
+                command = lambda:system.check_book(input("Book name: "),libry)) 
+    btn_search_book.pack(side = 'top')
+    btn_my_book = Button(root, text = 'my book', 
+                    command = lambda:api.my_book(username,log)) 
+    btn_my_book.pack(side = 'top')
+    btn_quit = Button(root, text = 'quit',
+                    command = root.destroy) 
+    btn_quit.pack(side = 'top')
+    root.mainloop() 
 
 # Set the position of button on the top of window 
 

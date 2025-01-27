@@ -34,7 +34,7 @@ def check_main(users,i):
         return True
     return False
 def add_user(user,pas,type,main,users):
-    if type == admin and main == True :
+    if type == "admin" and main == True :
         users.append([user,pas,type])
     elif type == user :
         users.append([user,pas,type])

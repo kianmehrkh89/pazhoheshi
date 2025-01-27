@@ -3,3 +3,4 @@ kianmehr,golestan,24/12/04,1
 kianmehr,bostan,24/12/02,0
 kianmehr,binahayat,24/12/17,1
 kianmehr,bostan,24/12/18,1
+abas,zaban,25/01/27,0

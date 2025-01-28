@@ -1,4 +1,6 @@
 from datetime import datetime
+from tkinter import *
+from tkinter.ttk import *
 class system:
     def ___init___(self):
         pass
@@ -23,7 +25,7 @@ class system:
     def check_user(self,name,pas,users):
         for i in range(len(users)):
             if users[i][0] == name:
-                if pas in users[i][1]:
+                if pas == users[i][1]:
                     print("login successful")
                     return True , i
                 else:
@@ -41,7 +43,7 @@ class system:
         return False
     def check_book(self,B_Name,libry):
         for i in range(len(libry)):
-            if B_Name in libry[i][0] and (int(libry[i][1])>0):
+            if B_Name == libry[i][0] and (int(libry[i][1])>0):
                 print("Book is available")
                 return True
         print("Book is unavailable")
@@ -50,8 +52,10 @@ class user:
     def ___init___(self):
         pass
     def libry_list(self,libry):
+        a=[]
         for i in libry:
-            print(i[0])
+            a.append(i[0])
+        return a
     def add_book(self,book_name,num,libry):
         libry.append([book_name,num])
         new_file=open("libry.txt","w")
@@ -83,7 +87,7 @@ class user:
     def add_user(self,user,pas,type,main,users):
         if type == "admin" and main == True :
             users.append([user,pas,type])
-        elif type == user :
+        elif type == "user" :
             users.append([user,pas,type])
         else:
             print("type incorrect")
@@ -112,7 +116,7 @@ class user:
             return
     def del_user(self,user,approval,main,users):
         if main==True:
-            if approval == "y":
+            if approval == "yes":
                 for i in range(len(users)):
                     if user in users[i][0]:
                         del users[i]
@@ -150,11 +154,7 @@ class user:
         for i in range(len(log)):
             if log[i][0]==username and log[i][3]=="1":
                 a.append("Book name: "+log[i][1]+" Date taking: "+log[i][2])
-        if len(a)==0:
-                print("you didn't get a book")
-        else:
-            for i in a:
-                print(i)
+        return a
         return
     def give_back_book(self,username,book,log,libry):
         for i in range(len(log)):
@@ -174,10 +174,11 @@ class user:
         print("get back book successful")
         return
     def all_log(self,log):
+        a=[]
         for i in log:
             if i[3]=="1":
-                print(i[0]+" dar tarikh "+i[2]+" ketabe "+i[1]+" ra gerefte")
-        return
+                a.append(i[0]+" dar tarikh "+i[2]+" ketabe "+i[1]+" ra gerefte")
+        return a
     def all_user_data(self,main,users):
         if main==True:
             for i in users:

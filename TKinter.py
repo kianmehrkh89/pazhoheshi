@@ -5,27 +5,50 @@ from tkinter import *
 from tkinter.ttk import *
 import time  
 #libry file
+user_input_var = None
+user_num_var = None
+def check_user(username,pas,users,root):
+    user_input_var , user_num_var = system.check_user(username,pas,users)
+    if user_input_var == TRUE:
+        root.destroy()
+    return
+def signin(users):
+    root1=Tk()
+    root1.geometry("200x100")
+    name_label = Label(root1, text = 'Username')
+    username_get = Entry(root1)
+    passw_label = Label(root1, text = 'Password')
+    pas=Entry(root1)
+    sub=Button(root1,text = 'Submit', command = lambda:check_user(username_get.get(), pas.get(), users, root1))
+    name_label.grid(row=0,column=0)
+    username_get.grid(row=0,column=1)
+    passw_label.grid(row=1,column=0)
+    pas.grid(row=1,column=1)
+    sub.grid(row=2,column=1)
+    username = username_get.get()
+    password = pas.get()
+    root1.mainloop()
+    return user_input_var , user_num_var , username , password
 system = classs.system()
-api = classs.user()
+api = classs.user()  
 libry = system.open_book()
 #users file
 users=system.open_users()
 q=False
-username=input("username: ")
-pas=input("password: ")
-user_input , user_num=system.check_user(username,pas,users)
+user_input , user_num , username , pas = signin(users) 
 if user_input==True:
     admin = system.check_admin(users,user_num)
     main = system.check_main(users,user_num)
 log = system.open_log()
-
-if admin==True:
-    root = Tk()           
-    root.geometry('600x350')   
+if user_input==True and admin==True:
+    root = Tk()
+    root.geometry('800x800')
+    tx = Label(root, text='select a option:')
+    tx.pack(side = "left")   
     btn_libry_list = Button(root, text = 'show libry list', 
             command = lambda:api.libry_list(libry))
     btn_libry_list.pack(side = 'top')
-    btn_get_book = Button(root, text = 'get book', 
+    btn_get_book = Button(root, text = 'get book',
                     command = lambda:api.get_book(username,input("Book you want: "),log,libry))
     btn_get_book.pack(side = 'top') 
     btn_get_back_book = Button(root, text = 'get back book', 
@@ -65,9 +88,11 @@ if admin==True:
                     command = root.destroy) 
     btn_quit.pack(side = 'top')
     root.mainloop() 
-else:
+elif user_input==True:
     root = Tk()           
-    root.geometry('600x350')   
+    root.geometry('400x350')  
+    tx = Label(root, text='select a option')
+    tx.pack(side = "left") 
     btn_libry_list = Button(root, text = 'show libry list', 
             command = lambda:api.libry_list(libry))
     btn_libry_list.pack(side = 'top')

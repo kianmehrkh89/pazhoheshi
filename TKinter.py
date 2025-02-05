@@ -5,11 +5,13 @@ from tkinter import *
 from tkinter.ttk import *
 import time  
 #libry file
-user_input_var = None
-user_num_var = None
+input_var , num_var , username_var , password_var = None , None , None , None
 def check_user(username,pas,users,root):
+    global user_input_var , user_num_var , username_var , password_var
     user_input_var , user_num_var = system.check_user(username,pas,users)
     if user_input_var == TRUE:
+        username_var , password_var = username , pas
+        print(user_input_var , user_num_var , username_var , password_var)
         root.destroy()
     return
 def signin(users):
@@ -25,22 +27,23 @@ def signin(users):
     passw_label.grid(row=1,column=0)
     pas.grid(row=1,column=1)
     sub.grid(row=2,column=1)
-    username = username_get.get()
-    password = pas.get()
     root1.mainloop()
-    return user_input_var , user_num_var , username , password
+    return
 system = classs.system()
 api = classs.user()  
 libry = system.open_book()
 #users file
 users=system.open_users()
 q=False
-user_input , user_num , username , pas = signin(users) 
+signin(users)
+user_input , user_num , username , pas =user_input_var , user_num_var , username_var , password_var 
+print(user_input , user_num , username , pas)
 if user_input==True:
     admin = system.check_admin(users,user_num)
     main = system.check_main(users,user_num)
 log = system.open_log()
 if user_input==True and admin==True:
+    print(1)
     root = Tk()
     root.geometry('800x800')
     tx = Label(root, text='select a option:')

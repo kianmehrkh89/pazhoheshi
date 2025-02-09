@@ -1,6 +1,10 @@
-bostan/2
-golestan/3
+bostan/0
+golestan/0
 c lerning/0
 binahayat/11
+<<<<<<< HEAD
 zaban/-1
+=======
+zaban/8
+>>>>>>> 262eec19e7602891ed62f3e8f5f38ae40882a326
 mabani/3

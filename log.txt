@@ -5,6 +5,21 @@ kianmehr,binahayat,24/12/17,0
 kianmehr,bostan,24/12/18,0
 abas,zaban,25/01/27,0
 kianmehr,bostan,25/01/29,0
+<<<<<<< HEAD
 kianmehr,zaban,25/02/10,1
 kianmehr,zaban,25/02/10,1
 kianmehr,zaban,25/02/10,1
+=======
+kianmehr,bostan,25/02/05,1
+kianmehr,bostan,25/02/05,1
+kianmehr,zaban,25/02/05,0
+kianmehr,zaban,25/02/05,0
+kianmehr,golestan,25/02/05,1
+kianmehr,golestan,25/02/05,1
+kianmehr,golestan,25/02/05,1
+kianmehr,zaban,25/02/05,0
+kianmehr,zaban,25/02/05,0
+kianmehr,zaban,25/02/05,0
+kianmehr,zaban,25/02/05,0
+kianmehr,zaban,25/02/05,0
+>>>>>>> 262eec19e7602891ed62f3e8f5f38ae40882a326

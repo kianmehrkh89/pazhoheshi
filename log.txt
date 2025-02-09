@@ -5,3 +5,6 @@ kianmehr,binahayat,24/12/17,0
 kianmehr,bostan,24/12/18,0
 abas,zaban,25/01/27,0
 kianmehr,bostan,25/01/29,0
+kianmehr,zaban,25/02/10,1
+kianmehr,zaban,25/02/10,1
+kianmehr,zaban,25/02/10,1

@@ -1,6 +1,6 @@
-bostan/2
-golestan/3
+bostan/0
+golestan/0
 c lerning/0
 binahayat/11
-zaban/2
+zaban/8
 mabani/3

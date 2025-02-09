@@ -52,13 +52,13 @@ def get_book():
     book_label = Label(root, text = 'Book you want: ')
     book_entry = Entry(root)
     sub =Button(root,text = 'continue', 
-                command = lambda:api.get_book(username,book_entry.get(),log,libry))
+                command = lambda:api.get_book(username,book_entry.get(),log,libry,root))
     btn_quit = Button(root, text = 'quit',
                 command = root.destroy) 
     book_label.grid(row=0,column=0)
     book_entry.grid(row=0,column=1)
     sub.grid(row=1,column=1)
-    btn_quit.grid(row=4,column=1)
+    btn_quit.grid(row=2,column=1)
     root.mainloop()
     return
 def give_back_book():
@@ -69,7 +69,7 @@ def give_back_book():
     sub =Button(root,text = 'continue', 
                 command = lambda:api.give_back_book(username,(book_entry.get()),log,libry))
     btn_quit = Button(root, text = 'quit',
-                command = root.destroy) 
+                command = root.destroy)
     book_label.grid(row=0,column=0)
     book_entry.grid(row=0,column=1)
     sub.grid(row=1,column=1)
@@ -336,7 +336,7 @@ log = system.open_log()
 
 if user_input==True and admin==True:
     root = Tk()           
-    root.geometry('500x400') 
+    root.geometry('300x300') 
     tx = Label(root, text='select a option:')
     tx.pack(side = "left")
     btn_loan = Button(root, text = 'loan',

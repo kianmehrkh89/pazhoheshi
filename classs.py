@@ -1,6 +1,7 @@
 from datetime import datetime
 from tkinter import *
 from tkinter.ttk import *
+import time
 class system:
     def ___init___(self):
         pass
@@ -133,7 +134,7 @@ class user:
         else:
             print("you can't delete user")
         return
-    def get_book(self,username,book,log,libry):
+    def get_book(self,username,book,log,libry,root):
         now = datetime.now()
         now = now.strftime("%y/%m/%d")
         new_log = open("log.txt","w")
@@ -147,7 +148,12 @@ class user:
         for line in libry: 
             new_libey.write('/'.join(line) + '\n')
         new_libey.close()
+        return_label = Label(root, text = 'Successfully took the book')
+        return_label.grid(row=4,column=0)
+        root.update()
         print("get book successful")
+        time.sleep(2)
+        root.destroy()
         return
     def my_book(self,username,log):
         a=[]

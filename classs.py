@@ -162,22 +162,32 @@ class user:
                 a.append("Book name: "+log[i][1]+" Date taking: "+log[i][2])
         return a
         return
-    def give_back_book(self,username,book,log,libry):
+    def give_back_book(self,username,book,log,libry,root):
         for i in range(len(log)):
-            if log[i][0] == username and log[i][1] == book:
-                 log[i][3]="0"
-        new_log = open("log.txt","w")
-        for line in log: 
-            new_log.write(','.join(line) + '\n')
-        for i in range(len(libry)):
-            if libry[i][0] == book:
-                libry[i][1]=str((int(libry[i][1])+1))
-        new_libey = open("libry.txt","w")
-        for line in libry: 
-            new_libey.write('/'.join(line) + '\n')
-        new_libey.close()
-        new_log.close()
-        print("get back book successful")
+            if log[i][0] == username and log[i][1] == book and int(log[i][3])==1:
+                log[i][3]="0"
+                return_label = Label(root, text = 'get back is Successfull')
+                return_label.grid(row=4,column=0)
+                root.update()
+                new_log = open("log.txt","w")
+                for line in log: 
+                    new_log.write(','.join(line) + '\n')
+                for i in range(len(libry)):
+                    if libry[i][0] == book:
+                        libry[i][1]=str((int(libry[i][1])+1))
+                new_libey = open("libry.txt","w")
+                for line in libry: 
+                    new_libey.write('/'.join(line) + '\n')
+                new_libey.close()
+                new_log.close()
+                time.sleep(2)
+                root.destroy()
+                return
+        return_label = Label(root, text = 'book not found')
+        return_label.grid(row=4,column=0)
+        root.update()
+        time.sleep(2)
+        root.destroy()
         return
     def all_log(self,log):
         a=[]

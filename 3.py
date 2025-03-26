@@ -1,16 +1,19 @@
 # import tkinter module 
 import classs
 from datetime import datetime
-from tkinter import *        
-from tkinter.ttk import *
-import time  
+from tkinter import *
+from tkinter.ttk import *        
+import time     
 #files
+#RGB
+def _from_rgb(rgb):
+    return "#%02x%02x%02x" % rgb 
 system = classs.system()
 api = classs.user()
 libry = system.open_book()
 users=system.open_users()
 #TKinter
-input_var , num_var , username_var , password_var = None , None , None , None
+user_input_var , user_num_var , username_var , password_var = None , None , None , None
 def check_user(username,pas,users,root):
     global user_input_var , user_num_var , username_var , password_var
     user_input_var , user_num_var = system.check_user(username,pas,users)
@@ -67,7 +70,7 @@ def give_back_book():
     book_label = Label(root, text = 'Book you want to return: ')
     book_entry = Entry(root)
     sub =Button(root,text = 'continue', 
-                command = lambda:api.give_back_book(username,(book_entry.get()),log,libry))
+                command = lambda:api.give_back_book(username,(book_entry.get()),log,libry,root))
     btn_quit = Button(root, text = 'quit',
                 command = root.destroy)
     book_label.grid(row=0,column=0)
@@ -101,8 +104,8 @@ def add_user():
     root.mainloop()
     return
 def edit_user():
-    root = Tk()         
-    root.geometry('500x400') 
+    root = Tk()
+    root.geometry('300x300') 
     pas_label = Label(root, text = 'last password')
     pas_get = Entry(root)
     newpas_label = Label(root, text = 'new Password')
@@ -240,9 +243,8 @@ def all_log():
     root.mainloop()
 def user_maneger():
     root = Tk()           
-    root.geometry('500x400') 
-    tx = Label(root, text='select a option:')
-    tx.pack(side = "left")
+    root.geometry('300x300') 
+    root.configure(bg=_from_rgb((255, 210, 210)))
     btn_add_user = Button(root, text = 'add user', 
                     command = lambda:add_user())
     btn_add_user.pack(side = 'top')
@@ -256,9 +258,8 @@ def user_maneger():
     return
 def book_maneger():
     root = Tk()           
-    root.geometry('500x400') 
-    tx = Label(root, text='select a option:')
-    tx.pack(side = "left")
+    root.geometry('300x300')
+    root.configure(bg=_from_rgb((210, 255, 210)))
     btn_add_book = Button(root, text = 'add book', 
                     command = lambda:add_book()) 
     btn_add_book.pack(side = 'top')
@@ -275,9 +276,8 @@ def book_maneger():
     return
 def loan():
     root = Tk()           
-    root.geometry('500x400') 
-    tx = Label(root, text='select a option:')
-    tx.pack(side = "left")
+    root.geometry('300x300')
+    root.configure(bg=_from_rgb((255, 255, 200)))
     btn_get_book = Button(root, text = 'get book', 
                     command = lambda:get_book())
     btn_get_book.pack(side = 'top') 
@@ -291,9 +291,8 @@ def loan():
     return
 def libry_detail():
     root = Tk()           
-    root.geometry('500x400') 
-    tx = Label(root, text='select a option:')
-    tx.pack(side = "left")  
+    root.geometry('300x300')
+    root.configure(bg="palegoldenrod")
     btn_libry_list = Button(root, text = 'show libry list', 
             command = lambda:lib_list())
     btn_libry_list.pack(side = 'top')
@@ -310,9 +309,8 @@ def libry_detail():
     return
 def log_detail():
     root = Tk()           
-    root.geometry('500x400') 
-    tx = Label(root, text='select a option:')
-    tx.pack(side = "left")
+    root.geometry('300x300')
+    root.configure(bg=_from_rgb((240, 180, 255))) 
     btn_all_log = Button(root, text = 'all log', 
                     command = lambda:all_log()) 
     btn_all_log.pack(side = 'top')
@@ -336,36 +334,34 @@ log = system.open_log()
 
 if user_input==True and admin==True:
     root = Tk()           
-    root.geometry('300x300') 
-    tx = Label(root, text='select a option:')
-    tx.pack(side = "left")
-    btn_loan = Button(root, text = 'loan',
-                    command = lambda:loan())
-    btn_loan.pack(side = 'top')
-    btn_user_maneger = Button(root, text = 'user maneger',
-                    command = lambda:user_maneger())
-    btn_user_maneger.pack(side = 'top')
-    btn_book_maneger = Button(root, text = 'book maneger',
-                    command = lambda:book_maneger())
-    btn_book_maneger.pack(side = 'top')
-    btn_libry_detail = Button(root, text = 'libry detail',
-                    command = lambda:libry_detail())
-    btn_libry_detail.pack(side = 'top')
-    btn_log_detail = Button(root, text = 'log detail',
-                    command = lambda:log_detail())
-    btn_log_detail.pack(side = 'top')
-    btn_edit_user = Button(root, text = 'change password', 
-                    command = lambda:edit_user())
-    btn_edit_user.pack(side = 'top') 
-    btn_quit = Button(root, text = 'quit',
-                    command = root.destroy) 
-    btn_quit.pack(side = 'top')
+    root.geometry('300x300')
+    root.configure(bg=_from_rgb((170, 210, 255))) 
+
+    btn_loan = Button(root, text='loan', command=lambda: loan())
+    btn_loan.pack(side='top')
+
+    btn_user_maneger = Button(root, text='user manager', command=lambda: user_maneger())
+    btn_user_maneger.pack(side='top')
+
+    btn_book_maneger = Button(root, text='book manager', command=lambda: book_maneger())
+    btn_book_maneger.pack(side='top')
+
+    btn_libry_detail = Button(root, text='library detail', command=lambda: libry_detail())
+    btn_libry_detail.pack(side='top')
+
+    btn_log_detail = Button(root, text='log detail', command=lambda: log_detail())
+    btn_log_detail.pack(side='top')
+
+    btn_edit_user = Button(root, text='change password', command=lambda: edit_user())
+    btn_edit_user.pack(side='top') 
+
+    btn_quit = Button(root, text='quit', command=root.destroy) 
+    btn_quit.pack(side="bottom")
+
     root.mainloop() 
 elif user_input==True:
     root = Tk()           
-    root.geometry('600x350')
-    tx = Label(root, text='select a option:')
-    tx.pack(side = "left")   
+    root.geometry('600x350')   
     btn_loan = Button(root, text = 'loan',
                     command = lambda:loan())
     btn_loan.pack(side = 'top')

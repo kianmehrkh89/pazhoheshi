@@ -10,8 +10,9 @@ def _from_rgb(rgb):
     return "#%02x%02x%02x" % rgb 
 system = classs.system()
 api = classs.user()
-libry = system.open_book()
 users=system.open_users()
+libry = system.open_book()
+
 #TKinter
 user_input_var , user_num_var , username_var , password_var = None , None , None , None
 def check_user(username,pas,users,root):
@@ -40,23 +41,25 @@ def signin(users):
 def lib_list():
     lis = api.libry_list(libry)
     root = Tk()           
-    root.geometry('250x400')
+    root.geometry('300x300')
+    root.configure(bg="palegoldenrod")
     for i in lis:
         tx = Label(root, text=i)
         tx.pack(side = "top")
-    btn_quit = Button(root, text = 'quit',
+    btn_quit = Button(root, text = 'back',
                 command = root.destroy) 
     btn_quit.pack(side = 'bottom')
     root.mainloop()
     return
 def get_book():
     root = Tk()           
-    root.geometry('500x400') 
+    root.geometry('300x300') 
+    root.configure(bg=_from_rgb((255, 255, 200)))
     book_label = Label(root, text = 'Book you want: ')
     book_entry = Entry(root)
     sub =Button(root,text = 'continue', 
                 command = lambda:api.get_book(username,book_entry.get(),log,libry,root))
-    btn_quit = Button(root, text = 'quit',
+    btn_quit = Button(root, text = 'back',
                 command = root.destroy) 
     book_label.grid(row=0,column=0)
     book_entry.grid(row=0,column=1)
@@ -66,12 +69,13 @@ def get_book():
     return
 def give_back_book():
     root = Tk()           
-    root.geometry('500x400') 
+    root.geometry('300x300') 
+    root.configure(bg=_from_rgb((255, 255, 200)))
     book_label = Label(root, text = 'Book you want to return: ')
     book_entry = Entry(root)
     sub =Button(root,text = 'continue', 
                 command = lambda:api.give_back_book(username,(book_entry.get()),log,libry,root))
-    btn_quit = Button(root, text = 'quit',
+    btn_quit = Button(root, text = 'back',
                 command = root.destroy)
     book_label.grid(row=0,column=0)
     book_entry.grid(row=0,column=1)
@@ -81,7 +85,8 @@ def give_back_book():
     return
 def add_user():
     root = Tk()         
-    root.geometry('500x400') 
+    root.geometry('300x300') 
+    root.configure(bg=_from_rgb((255, 210, 210)))
     name_label = Label(root, text = 'Username')
     username_get = Entry(root)
     pass_label = Label(root, text = 'Password')
@@ -91,7 +96,7 @@ def add_user():
     type['values'] = ("admin", "user")
     sub =Button(root,text = 'continue', 
                 command = lambda:api.add_user(username_get.get(),password.get(),type.get(),main,users))
-    btn_quit = Button(root, text = 'quit',
+    btn_quit = Button(root, text = 'back',
                 command = root.destroy) 
     name_label.grid(row=0,column=0)
     username_get.grid(row=0,column=1)
@@ -114,7 +119,7 @@ def edit_user():
     rpt_newpas=Entry(root)
     sub =Button(root,text = 'continue', 
                 command = lambda:api.edit_user(pas,pas_get.get(),newpas.get(),rpt_newpas.get(),users,user_num))
-    btn_quit = Button(root, text = 'quit',
+    btn_quit = Button(root, text = 'back',
                 command = root.destroy)
     pas_label.grid(row=0,column=0)
     pas_get.grid(row=0,column=1)
@@ -128,7 +133,8 @@ def edit_user():
     return
 def del_user():
     root = Tk()         
-    root.geometry('500x400') 
+    root.geometry('300x300') 
+    root.configure(bg=_from_rgb((255, 210, 210)))
     username_label = Label(root, text = 'Username')
     username_get = Entry(root)
     check_label = Label(root, text = 'are you sure?')
@@ -136,7 +142,7 @@ def del_user():
     check['values'] = ("yes", "no")
     sub =Button(root,text = 'continue', 
                 command = lambda:api.del_user(username_get.get(),check.get(),main,users))
-    btn_quit = Button(root, text = 'quit',
+    btn_quit = Button(root, text = 'back',
                 command = root.destroy) 
     username_label.grid(row=0,column=0)
     username_get.grid(row=0,column=1)
@@ -148,14 +154,15 @@ def del_user():
     return
 def add_book():
     root = Tk()         
-    root.geometry('500x400') 
+    root.geometry('300x300') 
+    root.configure(bg=_from_rgb((210, 255, 210)))
     name_label = Label(root, text = "new BookName: ")
     BookName = Entry(root)
     num_label = Label(root, text = "num of Book: ")
     num=Entry(root)
     sub=Button(root,text = 'Submit',
                 command = lambda:api.add_book(BookName.get(),num.get(),libry))
-    btn_quit = Button(root, text = 'quit',
+    btn_quit = Button(root, text = 'back',
                 command = root.destroy) 
     name_label.grid(row=0,column=0)
     BookName.grid(row=0,column=1)
@@ -167,14 +174,15 @@ def add_book():
     return
 def edit_book():
     root = Tk()         
-    root.geometry('500x400') 
+    root.geometry('300x300') 
+    root.configure(bg=_from_rgb((210, 255, 210)))
     name_label = Label(root, text = "BookName: ")
     BookName = Entry(root)
     num_label = Label(root, text = "new num of Book: ")
     num=Entry(root)
     sub=Button(root,text = 'Submit',
                 command = lambda:api.edit_book((BookName.get(),num.get(),libry)))
-    btn_quit = Button(root, text = 'quit',
+    btn_quit = Button(root, text = 'back',
                 command = root.destroy) 
     name_label.grid(row=0,column=0)
     BookName.grid(row=0,column=1)
@@ -186,12 +194,13 @@ def edit_book():
     return
 def del_book():
     root = Tk()         
-    root.geometry('500x400') 
+    root.geometry('300x300') 
+    root.configure(bg=_from_rgb((210, 255, 210)))
     name_label = Label(root, text = "BookName: ")
     BookName = Entry(root)
     sub=Button(root,text = 'Submit',
                 command = lambda:api.del_book(BookName.get(),libry))
-    btn_quit = Button(root, text = 'quit',
+    btn_quit = Button(root, text = 'back',
                 command = root.destroy) 
     name_label.grid(row=0,column=0)
     BookName.grid(row=0,column=1)
@@ -201,12 +210,13 @@ def del_book():
     return
 def check_book():
     root = Tk()         
-    root.geometry('500x400') 
+    root.geometry('300x300') 
+    root.configure(bg="palegoldenrod")
     name_label = Label(root, text = "BookName: ")
     BookName = Entry(root)
     sub=Button(root,text = 'Submit',
-                command = lambda:system.check_book(BookName.get(),libry))
-    btn_quit = Button(root, text = 'quit',
+                command = lambda:system.check_book(BookName.get(),libry,root))
+    btn_quit = Button(root, text = 'back',
                 command = root.destroy) 
     name_label.grid(row=0,column=0)
     BookName.grid(row=0,column=1)
@@ -217,7 +227,8 @@ def check_book():
 def my_book():
     a = api.my_book(username,log)
     root = Tk()         
-    root.geometry('500x400')
+    root.geometry('300x300')
+    root.configure(bg="palegoldenrod")
     if len(a)==0:
         tx = Label(root, text =  "you didn't get a book")  
         tx.pack(side = "top")      
@@ -225,19 +236,32 @@ def my_book():
         for i in a:
            tx = Label(root, text =  i) 
            tx.pack(side = "top")
-    btn_quit = Button(root, text = 'quit',
+    btn_quit = Button(root, text = 'back',
                 command = root.destroy) 
     btn_quit.pack(side = 'bottom')
     root.mainloop()
     return
 def all_log():
     root = Tk()         
-    root.geometry('500x400')
+    root.geometry('300x300')
+    root.configure(bg=_from_rgb((240, 180, 255))) 
     a = api.all_log(log)
     for i in a:
         tx = Label(root, text =  i) 
         tx.pack(side = "top")
-    btn_quit = Button(root, text = 'quit',
+    btn_quit = Button(root, text = 'back',
+                command = root.destroy) 
+    btn_quit.pack(side = 'bottom')
+    root.mainloop()
+def all_user_data():
+    root = Tk()
+    root.geometry('300x300')
+    root.configure(bg=_from_rgb((240, 180, 255))) 
+    a = api.all_user_data(main,users)
+    for i in a:
+        tx = Label(root, text =  i) 
+        tx.pack(side = "top")
+    btn_quit = Button(root, text = 'back',
                 command = root.destroy) 
     btn_quit.pack(side = 'bottom')
     root.mainloop()
@@ -277,6 +301,7 @@ def book_maneger():
 def loan():
     root = Tk()           
     root.geometry('300x300')
+    root.deiconify()
     root.configure(bg=_from_rgb((255, 255, 200)))
     btn_get_book = Button(root, text = 'get book', 
                     command = lambda:get_book())
@@ -315,7 +340,7 @@ def log_detail():
                     command = lambda:all_log()) 
     btn_all_log.pack(side = 'top')
     btn_all_users_data = Button(root, text = 'all users data', 
-                    command = lambda:api.all_user_data(main,users))
+                    command = lambda:all_user_data())
     btn_all_users_data.pack(side = 'top')
     btn_quit = Button(root, text = 'back',
                 command = root.destroy) 
@@ -361,7 +386,7 @@ if user_input==True and admin==True:
     root.mainloop() 
 elif user_input==True:
     root = Tk()           
-    root.geometry('600x350')   
+    root.geometry('300x300')   
     btn_loan = Button(root, text = 'loan',
                     command = lambda:loan())
     btn_loan.pack(side = 'top')

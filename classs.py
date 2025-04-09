@@ -16,17 +16,14 @@ class system:
         libry = pd.read_csv("libry.csv")
         return libry
     def check_user(self,name,pas,users):
-        for i in range(1):
-            #print(users)
-            print(users["pass"],"-------")
-            print(users["name"][0])
-            if users["name"][0] in name:
+        a=0
+        print(users["pass"],"-------")
+        print(users["name"][0])
+        for i in range(len(users["name"])):
+            if users["name"][i] in name:
                 if str(pas) == str(users["pass"][0]):
                     print("login successful")
                     return True , i
-                else:
-                        print("password incorrect")
-                return False , -1
         print("user not found")
         return False , -1
     def check_admin(self,users,i):
@@ -37,20 +34,29 @@ class system:
         if "main" == users["type"][i]:
             return True
         return False
-    def check_book(self,B_Name,libry):
-        for i in range(len(libry)):
-            if B_Name == libry[i][0] and (int(libry[i][1])>0):
-                print("Book is available")
+    def check_book(self,B_Name,libry,root):
+        for i in range(len(libry["book"])):
+            print(B_Name)
+            if libry["book"][i] in B_Name and (int(libry["num"][i])>0):
+                return_label = Label(root, text = 'کتاب موجود است')
+                return_label.grid(row=4,column=0)
+                root.update()
+                time.sleep(2)
+                root.destroy()
                 return True
-        print("Book is unavailable")
+        return_label = Label(root, text = 'کتاب موجود نیست')
+        return_label.grid(row=4,column=0)
+        root.update()
+        time.sleep(2)
+        root.destroy()
         return False
 class user:
     def ___init___(self):
         pass
     def libry_list(self,libry):
         a=[]
-        for i in libry:
-            a.append(i[0])
+        for i in range(len(libry["book"])):
+            a.append(libry["book"][i])
         return a
     def add_book(self,book_name,num,libry):
         libry.append([book_name,num])
@@ -135,20 +141,16 @@ class user:
         print(libry)
         now = datetime.now()
         now = now.strftime("%y/%m/%d")
-        new_log = df = pd.read_csv("log.csv")
-        new_line={"name": username,"book": book,"date": now,"approval": "1"}
-        new_log = df._append(new_line, ignore_index=True)
-        print(df)
-        for i in range(len(libry[book])):
+        print(log)
+        for i in range(len(libry["book"])):
             if libry["book"][i] == book and int(libry["num"][i])>0:
                 check=1
-                libry["num"][i]=str((int(libry["num"][i])-1))
-                for line in log: 
-                    new_log.write(','.join(line) + '\n')
-                new_libey = open("libry.txt","w")
-                for line in libry: 
-                    new_libey.write('/'.join(line) + '\n')
-                new_libey.close()
+                new_line={"name": username,"book": book,"date": now,"approval": "1"}
+                log._append(new_line, ignore_index=True)
+                log. to_csv('log.csv', index=False)
+                
+                #libry.loc["num"][i]=(str((int(libry["num"][i])-1)))
+                libry. to_csv('libry.csv', index=False)
                 return_label = Label(root, text = 'کتاب دریافت شد')
                 return_label.grid(row=4,column=0)
                 root.update()
@@ -161,9 +163,9 @@ class user:
         return
     def my_book(self,username,log):
         a=[]
-        for i in range(len(log)):
-            if log[i][0]==username and log[i][3]=="1":
-                a.append("Book name: "+log[i][1]+" Date taking: "+log[i][2])
+        for i in range(len(log["name"])):
+            if log["name"][i]==username and int(log["approval"][i])==1:
+                a.append("Book name: "+log["book"][i]+" Date taking: "+log["date"][i])
         return a
     def give_back_book(self,username,book,log,libry,root):
         for i in range(len(log)):
@@ -194,14 +196,17 @@ class user:
         return
     def all_log(self,log):
         a=[]
-        for i in log:
-            if i[3]=="1":
-                a.append(i[0]+" dar tarikh "+i[2]+" ketabe "+i[1]+" ra gerefte")
+        for i in range(len(log["name"])):
+            if int(log["approval"][i]) == 1:
+                a.append(log["name"][i]+" dar tarikh "+log["date"][i]+" ketabe "+log["book"][i]+" ra gerefte")
+            print(a)
         return a
     def all_user_data(self,main,users):
+        a=[]
         if main==True:
-            for i in users:
-                print(i)
+            for i in range(len(users["name"])):
+                a.append("name: "+str(users["name"][i])+" password: "+str(users["pass"][i])+" type: "+str(users["type"][i]))
         else:
-            print("you are not main")
-        return
+            a.append("you are not main")
+        print(a)
+        return a

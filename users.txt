@@ -1,5 +1,0 @@
-kianmehr/123/main
-ali/123/user
-akbar/123/user
-abas/111/user
-ostad/0000/admin

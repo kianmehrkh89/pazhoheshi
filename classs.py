@@ -19,7 +19,7 @@ class system:
         a=0
         for i in range(len(users["name"])):
             if users["name"][i] in name:
-                if str(pas) == str(users["pass"][0]):
+                if str(pas) == str(users["pass"][i]):
                     return True , i
         return False , -1
     def check_admin(self,users,i):
@@ -30,8 +30,7 @@ class system:
         if "main" == users["type"][i]:
             return True
         return False
-    def check_book(self,B_Name,libry,root,log,username):
-        def about_book(i,libry):
+    def about_book(self,i,libry):
             root = Tk()         
             root.geometry('300x300') 
             root.configure(bg="palegoldenrod")
@@ -48,20 +47,21 @@ class system:
             btn_quit.grid(row=2,column=1)
             root.mainloop()
             return
+    def check_book(self,B_Name,libry,root,log,username):
         for i in range(len(libry["book"])):
-            if (libry["book"][i] in B_Name or libry["name_fa"][i] in B_Name) and (int(libry["num"][i])>0):
+            if libry["book"][i] in B_Name and (int(libry["num"][i])>0):
                 return_label = Label(root, text = 'کتاب موجود است')
                 about=Button(root,text = 'درباره کتاب', 
-                    command = lambda:about_book(i,libry))
+                    command = lambda:system.about_book(i,libry))
                 get = Button(root, text = 'دریافت کتاب',
                     command = lambda:user.get_book(self , username , B_Name , log , libry , root))
-                return_label.grid(row=4,column=0)
+                return_label.grid(row=4,column=1)
                 about.grid(row=5,column=1)
                 get.grid(row=6,column=1)
                 root.update()
                 return True
         return_label = Label(root, text = 'کتاب موجود نیست')
-        return_label.grid(row=4,column=0)
+        return_label.grid(row=4,column=1)
         root.update()
         time.sleep(2)
         root.destroy()
@@ -74,11 +74,12 @@ class user:
         for i in range(len(libry["book"])):
             a.append(libry["book"][i])
         return a
-    def add_book(self,book_name,num,libry,root):
-        libry.loc[libry.shape[0]] = [book_name, num]
+    def add_book(self,book_name,num,author,about,libry,root):
+        id = int(libry["id"][int(len(libry["id"]))-1]) + 1
+        libry.loc[libry.shape[0]] = [id,book_name, num , author , about]
         libry.to_csv('libry.csv', index=False)
         return_label = Label(root, text = 'کتاب با موفقیت اضافه شد')
-        return_label.grid(row=4,column=0)
+        return_label.grid(row=5,column=1)
         root.update()
         time.sleep(2)
         return_label.destroy()
@@ -86,13 +87,12 @@ class user:
     def edit_book(self,book_name,num,libry,root):
         for i in range(len(libry["book"])):
             if book_name == libry["book"][i] :
-                libry.iloc[i,3]=num
+                libry.iloc[i,2]=num
                 libry.to_csv('libry.csv', index=False)
                 return_label = Label(root, text = 'اطلاعات کتاب با موفقیت ویرایش شد')
-                return_label.grid(row=4,column=0)
             else:
                 return_label = Label(root, text = 'کتاب پیدا نشد')
-                return_label.grid(row=4,column=0)
+        return_label.grid(row=3,column=1)
         root.update()
         time.sleep(2)
         return_label.destroy()
@@ -114,7 +114,7 @@ class user:
             users.loc[users.shape[0]] = [user,pas,"user"]
             users.to_csv('users.csv', index=False)
         return_label = Label(root, text = 'کاربر اضافه شد')
-        return_label.grid(row=4,column=0)
+        return_label.grid(row=4,column=1)
         root.update()
         time.sleep(1)
         root.destroy()
@@ -125,14 +125,14 @@ class user:
                 users.iloc[user_num,1]=new_pas
                 users.to_csv('users.csv', index=False)
                 return_label = Label(root, text = 'رمز عبور با موفقیت تغییر یافت')
-                return_label.grid(row=4,column=0)
+                return_label.grid(row=4,column=1)
             else:
                 return_label = Label(root, text = 'تکرار رمز جدید اشتباه است')
-                return_label.grid(row=4,column=0)
+                return_label.grid(row=4,column=1)
                 root.update()
         else:
             return_label = Label(root, text = 'رمز عبور اشتباه است')
-            return_label.grid(row=4,column=0)
+            return_label.grid(row=4,column=1)
             root.update()
         root.update()
         time.sleep(1)
@@ -161,18 +161,19 @@ class user:
         now = datetime.now()
         now = now.strftime("%y/%m/%d")
         for i in range(len(libry["book"])):
-            if libry["book"][i] == book and int(libry["num"][i])>0:
-                check=1
-                log.loc[log.shape[0]] = [username, book, now , "1"]
-                log.to_csv('log.csv', index=False)
-                libry.iloc[i,3]=(str((int(libry["num"][i])-1)))
-                libry.to_csv('libry.csv', index=False)
-                return_label = Label(root, text = 'کتاب دریافت شد')
-                return_label.grid(row=4,column=0)
-                root.update()
+            if libry["book"][i] == book or libry["id"][i] == book:
+                if int(libry["num"][i])>0:
+                    check=1
+                    log.loc[log.shape[0]] = [username, libry["book"][i], now , "1",libry["id"][i]]
+                    log.to_csv('log.csv', index=False)
+                    libry.iloc[i,2]=(str((int(libry["num"][i])-1)))
+                    libry.to_csv('libry.csv', index=False)
+                    return_label = Label(root, text = 'کتاب دریافت شد')
+                    return_label.grid(row=2,column=1)
+                    root.update()
         if check==0 :
             return_label = Label(root, text = 'کتاب موجود نیست')
-            return_label.grid(row=4,column=0)
+            return_label.grid(row=2,column=1)
             root.update()
         time.sleep(2)
         root.destroy()
@@ -184,22 +185,22 @@ class user:
                 a.append("Book name: "+log["book"][i]+" Date taking: "+log["date"][i])
         return a
     def give_back_book(self,username,book,log,libry,root):
-        for i in range(len(log["name"])):
-            if log["name"][i] == username and log["book"][i] == book and int(log["approval"][i])==1:
+        for i in range(len(log["name"])): 
+            if log["name"][i] == username and (log["id"][i] == book or log["book"][i] == book) and int(log["approval"][i])==1:
                 log.iloc[i,3]=0
                 return_label = Label(root, text = 'کتاب با موفقیت برگردانده شد')
-                return_label.grid(row=4,column=0)
+                return_label.grid(row=2,column=1)
                 root.update()
                 for i in range(len(libry["book"])):
-                    if libry["book"][i] == book:
-                        libry.iloc[i,3]=(str((int(libry["num"][i])+1)))
+                    if libry["book"][i] == book or libry["id"][i] == book :
+                        libry.iloc[i,2]=(str((int(libry["num"][i])+1)))
                 log.to_csv('log.csv', index=False)
                 libry.to_csv('libry.csv', index=False)
                 time.sleep(2)
                 root.destroy()
                 return
         return_label = Label(root, text = 'کتاب یافت نشد')
-        return_label.grid(row=4,column=0)
+        return_label.grid(row=2,column=1)
         root.update()
         time.sleep(2)
         root.destroy()

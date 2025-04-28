@@ -56,6 +56,10 @@ def get_book():
     root.configure(bg=_from_rgb((255, 255, 200)))
     book_label = Label(root, text = 'کتابی که می‌خواهید: ')
     book_entry = Entry(root)
+    def gt(event):
+        api.get_book(username,book_entry.get(),log,libry,root)
+        return
+    book_entry.bind("<Return>", gt)
     sub =Button(root,text = 'تایید', 
                 command = lambda:api.get_book(username,book_entry.get(),log,libry,root))
     btn_quit = Button(root, text = 'بازگشت',
@@ -76,6 +80,10 @@ def give_back_book():
                 command = lambda:api.give_back_book(username,(book_entry.get()),log,libry,root))
     btn_quit = Button(root, text = 'بازگشت',
                 command = root.destroy)
+    def gt(event):
+        api.give_back_book(username,(book_entry.get()),log,libry,root)
+        return
+    book_entry.bind("<Return>", gt)
     book_label.grid(row=0,column=0)
     book_entry.grid(row=0,column=1)
     sub.grid(row=1,column=1)
@@ -127,7 +135,7 @@ def edit_user():
     rpt_newpas_label.grid(row=2,column=0)
     rpt_newpas.grid(row=2,column=1)
     sub.grid(row=3,column=1)
-    btn_quit.grid(row=4,column=0)
+    btn_quit.grid(row=4,column=1)
     root.mainloop()
     return
 #def del_user():
@@ -155,12 +163,16 @@ def add_book():
     root = Tk()         
     root.geometry('300x300') 
     root.configure(bg=_from_rgb((210, 255, 210)))
-    name_label = Label(root, text = "نام کتاب جدید: ")
+    name_label = Label(root, text = "نام کتاب جدید به لاتین: ")
     BookName = Entry(root)
+    author_label = Label(root, text = "نام نویسنده به لاتین ")
+    author = Entry(root)
+    about_label = Label(root, text = "توضیحات کتاب: ")
+    about = Entry(root)
     num_label = Label(root, text = "تعداد کتاب: ")
     num=Entry(root)
     sub=Button(root,text = 'تایید',
-                command = lambda:api.add_book(BookName.get(),num.get(),libry,root))
+                command = lambda:api.add_book(BookName.get(),num.get(),author.get(),about.get(),libry,root))
     btn_quit = Button(root, text = 'بازگشت',
                 command = root.destroy) 
     name_label.grid(row=0,column=0)
@@ -168,7 +180,11 @@ def add_book():
     num_label.grid(row=1,column=0)
     num.grid(row=1,column=1)
     sub.grid(row=2,column=1)
-    btn_quit.grid(row=3,column=1)
+    author_label.grid(row=3,column=0)
+    author.grid(row=3,column=1)
+    about_label.grid(row=4,column=0)
+    about.grid(row=4,column=1)
+    btn_quit.grid(row=5,column=1)
     root.mainloop()
     return
 def edit_book():
@@ -205,6 +221,27 @@ def del_book():
     BookName.grid(row=0,column=1)
     sub.grid(row=1,column=1)
     btn_quit.grid(row=2,column=1)
+    root.mainloop()
+    return
+def about_book():
+    root = Tk()         
+    root.geometry('300x300') 
+    root.configure(bg="palegoldenrod")
+    id_label = Label(root, text = "ایدی کتاب:")
+    id_ = Entry(root)
+    btn_quit = Button(root, text = 'بازگشت',
+                command = root.destroy)
+    def gt(event):
+        for i in range(len(libry["id"])):
+            print(i)
+            if libry["id"][i] == id_.get():
+                root.destroy()
+                system.about_book(i,libry)
+        return
+    id_.bind("<Return>", gt)
+    id_label.grid(row=0,column=0)
+    id_.grid(row=0,column=1)
+    btn_quit.grid(row=1,column=1)
     root.mainloop()
     return
 def check_book():
@@ -323,6 +360,9 @@ def libry_detail():
     btn_search_book = Button(root, text = 'جست‌وجوی کتاب', 
                 command = lambda:check_book()) 
     btn_search_book.pack(side = 'top')
+    btn_about_book = Button(root, text = 'درباره کتاب(فقط بارکد)', 
+                command = lambda:about_book()) 
+    btn_about_book.pack(side = 'top')
     btn_my_book = Button(root, text = 'کتاب‌های من', 
                     command = lambda:my_book()) 
     btn_my_book.pack(side = 'top')

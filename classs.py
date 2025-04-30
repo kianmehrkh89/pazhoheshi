@@ -1,6 +1,8 @@
 from datetime import datetime
 from tkinter import *
 from tkinter.ttk import *
+from barcode.writer import ImageWriter 
+import barcode
 import pandas as pd
 import time
 class system:
@@ -76,6 +78,9 @@ class user:
         return a
     def add_book(self,book_name,num,author,about,libry,root):
         id = int(libry["id"][int(len(libry["id"]))-1]) + 1
+        barcode_class = barcode.get_barcode_class('code128')
+        my_code = barcode_class(str(id), writer=ImageWriter())
+        my_code.save(str(id))
         libry.loc[libry.shape[0]] = [id,book_name, num , author , about]
         libry.to_csv('libry.csv', index=False)
         return_label = Label(root, text = 'کتاب با موفقیت اضافه شد')
@@ -97,14 +102,17 @@ class user:
         time.sleep(2)
         return_label.destroy()
         return
-    def del_book(self,book_name,libry):
-        for i in range(len(libry)):
-            if book_name in libry[i][0] :
-                libry[i][1] = "0"
-                new_file=open("libry.txt","w")
-                for line in libry: 
-                    new_file.write('/'.join(line) + '\n')
-        print("delete successful")
+    def del_book(self,book_name,libry,root):
+        for i in range(len(libry["book"])):
+            if book_name in libry["book"][i] :
+                libry.iloc[i,2]="0"
+                return_label = Label(root, text = 'موجودی کتاب با موفقیت حذف شد')
+            else:
+                return_label = Label(root, text = 'کتاب پیدا نشد')
+        return_label.grid(row=3,column=1)
+        root.update()
+        time.sleep(2)
+        return_label.destroy()
         return
     def add_user(self,user,pas,type,main,users,root):
         if type == "ادمین" and main == True :
